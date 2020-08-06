@@ -108,7 +108,7 @@ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   margin: 2%;
 }
 .error{
-  background: #f1f143;
+  background: #afaf22;
   float: left;
   color: #2d2709;
   border: 1px solid white;

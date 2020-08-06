@@ -10,7 +10,7 @@ class EventEditor extends Component {
   constructor(props){
     super(props);
     this.state = {
-    	eventName: "",
+      eventName: "",
       description: "",
       venue: "",
       price: "",
@@ -28,23 +28,19 @@ class EventEditor extends Component {
   } 
 
 
-  validateForm = () => {
+  validateForm = (errors) => {
     let valid = true;
-    const errors = this.state.errors;
-    const stateValues = Object.entries(this.state);
-    stateValues.pop();
-    for(let i=0; i<stateValues.length;i++){
-      if(!this.validateIndividual(stateValues[i][0], stateValues[i][1])){
-        return false;
-      }
-    }
     Object.values(errors).forEach(
-      (val) => val.length > 0 && val!=="" && (valid = false)
+      (val) => val.length > 0 && (valid = false)
     );
     return valid;
   }
-  validateIndividual = (name, value)=>{
-    const errors = this.state.errors;
+
+  handleChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.errors;
+
     switch (name) {
       case 'eventName': 
         errors.eventName = 
@@ -60,45 +56,38 @@ class EventEditor extends Component {
         break;
       case 'price': 
         errors.price = 
-          (isNaN(value) || value=="")
+          (isNaN(value))
             ? 'Price must be a positive numeric value'
             : '';
         break;
       case 'discount': 
         errors.discount = 
-          (isNaN(value) || value=="")
+          isNaN(value)
             ? 'discount must be a numeric value'
             : '';
         break;
       default:
         break;
     }
+
     this.setState({errors, [name]: value});
   }
 
-
-  handleChange = (event) => {
-    event.preventDefault();
-    const { name, value } = event.target;
-    let errors = this.state.errors;
-    this.validateIndividual(name, value);
-  }
-
   handleSubmit(){
-  	const event = { 
-  		eventName: this.state.eventName,
-  		description: this.state.description,
-  		venue: this.state.venue,
-  		price: this.state.price,
-  		discount: this.state.discount,
-  	};
-    if(this.validateForm()) {
+    const event = { 
+      eventName: this.state.eventName,
+      description: this.state.description,
+      venue: this.state.venue,
+      price: this.state.price,
+      discount: this.state.discount,
+    };
+    if(this.validateForm(this.state.errors)) {
       this.props.addEvent(event);
       this.handleDiscard();
     }else{
       console.error('Invalid Form')
     }
-  	console.log(JSON.stringify(event));
+    console.log(JSON.stringify(event));
   }
   handleDiscard(){
     this.setState({eventName: "", description: "", venue: "", price: "", discount: ""})
