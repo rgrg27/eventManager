@@ -23,7 +23,7 @@ function EventList(props){
     return(
     <div>
       	<h1 className="event-show">Events</h1>
-      	<EventFilter/>
+      	{(events && events.length)? <EventFilter/> : ""}
       	{eventList}
     </div>
   );
