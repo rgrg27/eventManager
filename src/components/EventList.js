@@ -19,7 +19,7 @@ function EventList(props){
 					</div>
 				</div>
 		}):
-		<div>No Events Available. Create An Event</div>
+		<h2>No Events Available. Create An Event</h2>
     return(
     <div>
       	<h1 className="event-show">Events</h1>
