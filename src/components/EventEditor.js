@@ -66,7 +66,7 @@ class EventEditor extends Component {
         break;
       case 'discount': 
         errors.discount = 
-          isNaN(value)
+          (isNaN(value) || value=="")
             ? 'discount must be a numeric value'
             : '';
         break;
