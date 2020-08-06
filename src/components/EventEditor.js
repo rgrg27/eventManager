@@ -72,7 +72,41 @@ class EventEditor extends Component {
 
     this.setState({errors, [name]: value});
   }
-
+  handleValidation(name,value){
+    const {errors} = this.state;
+      switch (name) {
+      case 'eventName': 
+        errors.eventName = 
+          value.length < 5
+            ? 'Event Name must be atlest 5 characters long!'
+            : '';
+        this.setState({errors, [name]: value});
+        return !(value.length < 5);
+      case 'description': 
+        errors.description = 
+          value.length < 15
+            ? 'Description must be atleast 15 characters long!'
+            : '';
+        this.setState({errors, [name]: value});
+        return value.length < 15
+      case 'price': 
+        errors.price = 
+          (isNaN(value) || value<0 || value=="")
+            ? 'Price must be a positive numeric value'
+            : '';
+        this.setState({errors, [name]: value});
+        return !(isNaN(value) || value<0 || value=="")
+      case 'discount': 
+        errors.discount = 
+          isNaN(value) || value<0 || value==""
+            ? 'discount must be a positive numeric value'
+            : '';
+          this.setState({errors, [name]: value});
+        return !(isNaN(value) || value<0 || value=="")
+      default:
+        return true;
+    }
+    }
   handleSubmit(){
     const event = { 
       eventName: this.state.eventName,
@@ -81,13 +115,16 @@ class EventEditor extends Component {
       price: this.state.price,
       discount: this.state.discount,
     };
-    if(this.validateForm(this.state.errors)) {
+    const isValid = Object.entries(event).map(([name,value])=>{
+      if(!this.handleValidation(name,value)){
+        return false;
+      }
+      return true;
+    })
+    if(isValid && this.validateForm(this.state.errors)){
       this.props.addEvent(event);
       this.handleDiscard();
-    }else{
-      console.error('Invalid Form')
     }
-    console.log(JSON.stringify(event));
   }
   handleDiscard(){
     this.setState({eventName: "", description: "", venue: "", price: "", discount: ""})
