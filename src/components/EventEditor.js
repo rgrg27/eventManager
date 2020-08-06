@@ -28,19 +28,23 @@ class EventEditor extends Component {
   } 
 
 
-  validateForm = (errors) => {
+  validateForm = () => {
     let valid = true;
+    const errors = this.state.errors;
+    const stateValues = Object.entries(this.state);
+    stateValues.pop();
+    for(let i=0; i<stateValues.length;i++){
+      if(!this.validateIndividual(stateValues[i][0], stateValues[i][1])){
+        return false;
+      }
+    }
     Object.values(errors).forEach(
-      (val) => val.length > 0 && (valid = false)
+      (val) => val.length > 0 && val!=="" && (valid = false)
     );
     return valid;
   }
-
-  handleChange = (event) => {
-    event.preventDefault();
-    const { name, value } = event.target;
-    let errors = this.state.errors;
-
+  validateIndividual = (name, value)=>{
+    const errors = this.state.errors;
     switch (name) {
       case 'eventName': 
         errors.eventName = 
@@ -56,7 +60,7 @@ class EventEditor extends Component {
         break;
       case 'price': 
         errors.price = 
-          (isNaN(value))
+          (isNaN(value) || value=="")
             ? 'Price must be a positive numeric value'
             : '';
         break;
@@ -69,8 +73,15 @@ class EventEditor extends Component {
       default:
         break;
     }
-
     this.setState({errors, [name]: value});
+  }
+
+
+  handleChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.errors;
+    this.validateIndividual(name, value);
   }
 
   handleSubmit(){
@@ -81,7 +92,7 @@ class EventEditor extends Component {
   		price: this.state.price,
   		discount: this.state.discount,
   	};
-    if(this.validateForm(this.state.errors)) {
+    if(this.validateForm()) {
       this.props.addEvent(event);
       this.handleDiscard();
     }else{
