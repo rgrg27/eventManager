@@ -99,7 +99,7 @@ class EventEditor extends Component {
     return (
         <div className="event-add">
           <div className="event-editor">
-            <h5 className="">Add an event</h5>
+            <h5 className="">Create Event</h5>
             <div>
               <EventFormField fieldName="eventName" value = {this.state.eventName} 
                error={this.state.errors.eventName} onValueChange={(e) =>this.handleChange(e)}/>

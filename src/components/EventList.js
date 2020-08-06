@@ -19,11 +19,11 @@ function EventList(props){
 					</div>
 				</div>
 		}):
-		<h2>No Events Available. Create An Event</h2>
+		<h2 className="no-event">No Events Available. Create An Event</h2>
     return(
     <div>
       	<h1 className="event-show">Events</h1>
-      	{(events && events.length)? <EventFilter/> : ""}
+      	<EventFilter/>
       	{eventList}
     </div>
   );

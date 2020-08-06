@@ -104,6 +104,9 @@ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   display: flex;
   float: left;
 }
+.no-event{
+  margin: 2%;
+}
 .error{
   background: #f1f143;
   float: left;
