@@ -103,6 +103,7 @@ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 .event-desc{
   display: flex;
   float: left;
+  word-break: break-word;
 }
 .no-event{
   margin: 2%;
